@@ -1,11 +1,9 @@
-var inquirer = require("inquirer");
+var Game = require("./game");
 
+//new game object
+var gamestart = new Game();
 
+// start game
+gamestart.play();
+//console.log("Guess the word!");
 
-let randomWord = "choosen";
-
-let wordArray = [];
-
-//wordArray = randomWord.split("");
-
-  

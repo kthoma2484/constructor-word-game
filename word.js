@@ -1,39 +1,51 @@
-var Letter = require("./letter");
+var Letter = require("./Letter");
 
-//let wordArray = [];
+// constructor function used to create word
+function Word(newWord) {
+    // Split up the word into array
+    letterArray = newWord.split("");
 
-//console.log(wordArray);
-function Word(hiddenWord) {
+    // Create function that maps the letterArray and returns letter constructor
+    this.letters = letterArray.map(function(char) {
+        return new Letter(char);
+    });
+};
 
-    // An array of new Letter objects representing the letters of the underlying word
-    this.hiddenLettersArray = [];
-    // A function that returns a string representing the word. This should call the function on each letter object (the first function defined in Letter.js) that displays the character or an underscore and concatenate those together.
+// function to process each letter and show the visible letter
+Word.prototype.correctWord = function() {
+    return this.letters.map(function(letter) { 
+      return letter.letterShow();
+    }).join("");
+};
 
-    this.addLetter = function (letter) {
-        let word = "spam";
 
-        let randomWord = word.split("");
-        console.log(randomWord);
-        
-        for (let i=0; i < randomWord.length; i++) {
-        let letter = randomWord[i];
-        console.log(typeof letter)
-        this.hiddenLettersArray.push(new Letter(letter));
-        
-        }
-        
-        let hiddenWord = this.hiddenLettersArray.join(' ');
-        console.log(hiddenWord);
-    };
+// function to put all the letters together as as a string
+Word.prototype.toString = function() {
+    return this.letters.join(" ");
+};
 
-    //console.log(this.hiddenWord);
-    //console.log(this.hiddenLettersArray)
-
-    // A function that takes a character as an argument and calls the guess function on each letter object (the second function defined in Letter.js)
-
-}
-
-// ----------------Testing code------------------
-let newHiddenWord = new Word("p")
-newHiddenWord.addLetter();
-// ----------------Testing code------------------
+// function to check each letter guessed and determine if it's in the word
+Word.prototype.guessLetter = function(char) {
+    // Checks to see if any of the letters in the array match the user's guess and updates `foundLetter`
+    var isInWord = false;
+    this.letters.forEach(function(letter) {
+      if (letter.letterGuess(char)) {
+        isInWord = true;
+      }
+    });  
+  
+    // Make letter visible in console if correct
+    console.log("\n" + this + "\n");
+    return isInWord;
+  };
+  
+  // Function to see if all letters in word are true
+  Word.prototype.wordGuessedRight = function() {
+    // function will return true only if true for every letter
+    return this.letters.every(function(letter) {
+      return letter.show;
+    });
+  };
+  
+module.exports = Word;
+  
